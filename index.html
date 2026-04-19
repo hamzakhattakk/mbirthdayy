@@ -499,7 +499,7 @@
       </div>
       <!-- success state -->
       <div id="gate-success">
-        <div class="emoji">🤗</div>
+        <div class="emoji"><img src="hug.png" style="width:100%;height:100%;object-fit:contain;"></div>
         <div class="welcome">welcomeeee</div>
         <p class="swipe-hint-gate">Swipe up to begin ↑</p>
       </div>
@@ -551,19 +551,19 @@
         <div class="memory-carousel" id="memory-carousel">
           <div class="memory-card-item" id="mem-1">
             <span class="card-num">01</span>
-            <span style="font-size:1.4rem;">📷</span>
+            <img src="camera.png" style="width:2rem;height:2rem;object-fit:contain;">
             <span>tap to add</span>
             <input type="file" accept="image/*" onchange="loadMemory(this,1)">
           </div>
           <div class="memory-card-item" id="mem-2">
             <span class="card-num">02</span>
-            <span style="font-size:1.4rem;">📷</span>
+            <img src="camera.png" style="width:2rem;height:2rem;object-fit:contain;">
             <span>tap to add</span>
             <input type="file" accept="image/*" onchange="loadMemory(this,2)">
           </div>
           <div class="memory-card-item" id="mem-3">
             <span class="card-num">03</span>
-            <span style="font-size:1.4rem;">📷</span>
+            <img src="camera.png" style="width:2rem;height:2rem;object-fit:contain;">
             <span>tap to add</span>
             <input type="file" accept="image/*" onchange="loadMemory(this,3)">
           </div>
@@ -587,7 +587,7 @@
       <div class="headline anim-child" style="font-size:clamp(2rem,7vw,4rem);color:#c84878;">Song of<br><em style="color:#8B2252;">the Year</em></div>
       <div class="anim-child" style="display:flex;align-items:center;gap:1.4rem;margin-top:0.8rem;flex-wrap:wrap;justify-content:center;">
         <div class="album-slot" id="album-slot">
-          <div class="vinyl">🎵</div>
+          <div class="vinyl"><img src="musical_note.png" style="width:2rem;height:2rem;object-fit:contain;"></div>
           <span style="font-size:0.7rem;opacity:0.6;text-align:center;line-height:1.4;">Tap to add<br>album cover</span>
           <input type="file" accept="image/*" onchange="loadAlbum(this)">
         </div>
@@ -617,7 +617,7 @@
       <div class="headline anim-child" style="font-size:clamp(3rem,12vw,7.5rem);">Happy</div>
       <div class="headline anim-child" style="font-size:clamp(3rem,12vw,7.5rem);margin-top:-0.15em;font-style:italic;">Birthday</div>
       <div class="subhead anim-child" id="name-display-final" style="margin-top:0.8rem;font-size:clamp(1.4rem,4.5vw,2.5rem);">[ Your Name Here ]</div>
-      <p class="body-text anim-child" style="margin-top:0.8rem;">With all the love in the world. 🤍</p>
+      <p class="body-text anim-child" style="margin-top:0.8rem;">With all the love in the world. <img src="heart.png" style="width:1.1em;height:1.1em;object-fit:contain;vertical-align:middle;"></p>
       <button id="celebrate-btn" class="anim-child" onclick="launchConfetti()">✦ Celebrate!</button>
     </div>
   </div>
@@ -646,37 +646,37 @@
      ║   CUSTOMISE EVERYTHING HERE  ║
      ╚══════════════════════════════╝ -->
 <script>
-const PERSON_NAME    = "[ Your Name Here ]";
+const PERSON_NAME    = "[ Momina Jan ]";
 const BIRTHDAY_DATE  = new Date('2026-07-17T00:00:00'); // 17 July 2026
 const MAIN_MESSAGE   = `Write your heartfelt message here. Tell them how much they mean to you, how proud you are, or share your favourite memory together.`;
 const MEMORY_CAPTION = "Add your favourite memory caption here — a place, a moment, a feeling.";
-const SONG_TITLE     = "Your Song Title";
-const SONG_ARTIST    = "Artist Name";
+const SONG_TITLE     = "Espresso";
+const SONG_ARTIST    = "Sabrina Carpenter";
 
 const TRAITS = [
-  "Infectious laughter","Fierce loyalty","Creative soul",
-  "Morning sunshine","Best advice giver","Always in your corner",
-  "Unstoppable energy","Kindest heart"
+  "Contagious Joy","Fierce loyalty","Nurturing Soul",
+  "Morning sunshine","Best tea spills","Sab theek karne wali vibes",
+  "Tufff Energy","Kindest Heart"
 ];
 
 // Music per slide. Set src: "yourfile.mp3" to add audio.
 const SONGS = [
   {title:"Something About You",  artist:"Eyedress",           src:"Something_About_You_-_Eyedress.mp3"},
-  {title:"Ecoute Chérie",        artist:"Vendredi Sur Mer",   src:"Ecoute_Cherie_-_Vendredi_Sur_Mer.mp3"},
+  {title:"Ecoute Chérie",        artist:"Vendredi Sur Mer",   src:"Ecoute_Cherie_-_Vendredi_Sur_Mer.wav"},
   {title:"Fukashigi No Karte",   artist:"Mai Sakurajima",     src:"Fukashgi_no_karte_-_Mai_Sakurajima.mp3"},
   {title:"Qarar",                artist:"Ismail Khan",        src:"Qarar_-_Ismail_Khan.mp3"},
-  {title:"Apocalypse",           artist:"Cigarettes After Sex",src:"Apocalypse_-_Cigarettes.mp3"},
+  {title:"Apocalypse",           artist:"Cigarettes",src:"Apocalypse_-_Cigarettes.mp3"},
   {title:"Espresso",             artist:"Sabrina Carpenter",  src:""},  // add file when ready
   {title:"West Coast",           artist:"Lana Del Rey",       src:""},  // add file when ready
   {title:"Golden Brown",         artist:"The Stranglers",     src:""},  // add file when ready
 ];
 
 const WISHES = [
-  {icon:"🌟", text:"All the happiness in this worldd"},
-  {icon:"🌸", text:"Lots of joy just like you spread yourself"},
-  {icon:"☕", text:"Mornings that feel like a warm hug"},
-  {icon:"✨", text:"Bohut saare ache gradess"},
-  {icon:"😛", text:"Elite level badmashness"},
+  {icon:`<img src="flower.png" style="width:1.1rem;height:1.1rem;object-fit:contain;vertical-align:middle;">`, text:"More adventures than you can count"},
+  {icon:`<img src="flower.png" style="width:1.1rem;height:1.1rem;object-fit:contain;vertical-align:middle;">`, text:"People who hold you the way you hold them"},
+  {icon:`<img src="flower.png" style="width:1.1rem;height:1.1rem;object-fit:contain;vertical-align:middle;">`, text:"Mornings that feel like a warm hug"},
+  {icon:`<img src="flower.png" style="width:1.1rem;height:1.1rem;object-fit:contain;vertical-align:middle;">`, text:"Dreams that keep growing bigger"},
+  {icon:`<img src="flower.png" style="width:1.1rem;height:1.1rem;object-fit:contain;vertical-align:middle;">`, text:"A soundtrack that matches every mood"},
 ];
 </script>
 <!-- ╚ end customisation ╝ -->
@@ -1068,6 +1068,19 @@ function drawConfetti(){
   });
   if(pieces.length>0) requestAnimationFrame(drawConfetti);
 }
+
+// ── AUTOPLAY on first interaction ─────────────────────────────
+// Browsers block autoplay until the user touches/clicks anything.
+// We start slide 0's music the moment they interact with the page.
+let autoplayStarted=false;
+function tryAutoplay(){
+  if(autoplayStarted) return;
+  autoplayStarted=true;
+  updateAudio(0);
+}
+document.addEventListener('click', tryAutoplay, {once:true});
+document.addEventListener('touchstart', tryAutoplay, {once:true, passive:true});
+document.addEventListener('keydown', tryAutoplay, {once:true});
 </script>
 </body>
 </html>
