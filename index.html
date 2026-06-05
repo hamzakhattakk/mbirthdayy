@@ -213,67 +213,42 @@
   #disc-player.on-song-slide #disc-info,
   #disc-player.on-song-slide #disc-toggle { display: none; }
 
-  /* ── MEMORY CAROUSEL ── */
-  .memory-carousel-wrap {
-    width: 100%; max-width: 600px;
-    overflow: hidden; position: relative;
+  
+ /* ── MEMORY TABS ───────────────────────────────────────────────*/
+/*╔════════════════════════════════════════════════════════╗
+// ║  Edit the text for each memory in the array below.    ║
+// ║  These match tab 1, 2, 3 in order.                    ║
+// ╚════════════════════════════════════════════════════════╝*/
+const MEM_TEXTS = [
+  // ★ MEMORY 1 TEXT — edit here ★
+  `Write your memory about the exam sessions here. What happened, how it felt, the funny moments — all of it.`,
+  // ★ MEMORY 2 TEXT — edit here ★
+  `Write your second memory here. A moment you'll never forget.`,
+  // ★ MEMORY 3 TEXT — edit here ★
+  `Write your third memory here. Something that always makes you smile.`,
+];
+ 
+let activeMemTab = -1;
+function openMemTab(idx){
+  const tabs  = document.querySelectorAll('.mem-tab');
+  const panel = document.getElementById('mem-panel');
+  const pText = document.getElementById('mem-panel-text');
+ 
+  if(activeMemTab === idx){
+    // clicking the active tab closes it
+    tabs[idx].classList.remove('active');
+    panel.classList.remove('open');
+    activeMemTab = -1;
+    return;
   }
-  .memory-carousel {
-    display: flex; gap: 14px;
-    overflow-x: auto; scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none; padding: 0.5rem 1rem;
-    cursor: grab;
-  }
-  .memory-carousel::-webkit-scrollbar { display: none; }
-  .memory-carousel:active { cursor: grabbing; }
-  .memory-card-item {
-    scroll-snap-align: center; flex-shrink: 0;
-    width: clamp(150px, 55vw, 220px);
-    aspect-ratio: 3/4;
-    border-radius: 16px; border: 2px dashed rgba(200,72,120,0.3);
-    background: rgba(255,255,255,0.5);
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    gap: 0.4rem; font-size: 0.75rem; color: #c84878;
-    position: relative; overflow: hidden;
-    transition: transform 0.2s;
-  }
-  .memory-card-item:hover { transform: scale(1.02); }
-  .memory-card-item input[type=file] {
-    position: absolute; inset: 0; opacity: 0; cursor: pointer;
-  }
-  .memory-card-item img {
-    position: absolute; inset: 0; width: 100%; height: 100%;
-    object-fit: cover; border-radius: 14px;
-  }
-  .memory-card-item .card-num {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.5rem; font-weight: 700; color: rgba(200,72,120,0.3);
-  }
-  .memory-dots {
-    display: flex; gap: 6px; justify-content: center; margin-top: 0.4rem;
-  }
-  .memory-dot {
-    width: 5px; height: 5px; border-radius: 50%;
-    background: rgba(200,72,120,0.25); transition: all 0.3s;
-  }
-  .memory-dot.active { width: 16px; border-radius: 3px; background: #c84878; }
-
-  /* child animations */
-  .anim-child { opacity: 0; }
-  .slide.in-view .anim-child { animation: rise 0.55s ease forwards; }
-  .slide.in-view .anim-child:nth-child(1){animation-delay:0.08s}
-  .slide.in-view .anim-child:nth-child(2){animation-delay:0.18s}
-  .slide.in-view .anim-child:nth-child(3){animation-delay:0.28s}
-  .slide.in-view .anim-child:nth-child(4){animation-delay:0.38s}
-  .slide.in-view .anim-child:nth-child(5){animation-delay:0.48s}
-  .slide.in-view .anim-child:nth-child(6){animation-delay:0.56s}
-  @keyframes rise {
-    from{opacity:0;transform:translateY(20px)}
-    to{opacity:1;transform:translateY(0)}
-  }
-
+ 
+  // switch tab
+  tabs.forEach(t=>t.classList.remove('active'));
+  tabs[idx].classList.add('active');
+  pText.textContent = MEM_TEXTS[idx];
+  panel.classList.add('open');
+  activeMemTab = idx;
+}
   /* COUNTDOWN */
    .countdown-grid {
     display: grid; grid-template-columns: repeat(4,1fr);
