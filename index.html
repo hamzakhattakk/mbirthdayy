@@ -540,12 +540,8 @@
       <p class="overline anim-child">Your Birthday Soundtrack</p>
       <div class="headline anim-child" style="font-size:clamp(2rem,7vw,4rem);">Song of<br><em>the Year</em></div>
       <div class="anim-child" style="display:flex;align-items:center;gap:1.4rem;margin-top:0.8rem;flex-wrap:wrap;justify-content:center;">
-        <div class="album-slot" id="album-slot">
-          <div class="vinyl">
-            <img src="musical_note.png" style="width:2rem;height:2rem;object-fit:contain;" alt="">
-          </div>
-          <span style="font-size:0.7rem;opacity:0.6;text-align:center;line-height:1.4;">Tap to add<br>album cover</span>
-          <input type="file" accept="image/*" onchange="loadAlbum(this)">
+        <div class="album-slot" id="album-slot" style="border:none;background:none;">
+          <img src="album_cover.webp" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:12px;" alt="album cover">
         </div>
         <div style="text-align:left;">
           <p id="song-title" style="font-family:'Playfair Display',serif;font-size:clamp(1rem,3vw,1.4rem);color:var(--pink);margin-bottom:6px;">Your Song Title</p>
@@ -595,7 +591,7 @@
 <div id="disc-player">
   <div id="disc-wrap" onclick="toggleAudio()">
     <div id="disc"></div>
-    <img id="disc-img" src="" alt="">
+    <img id="disc-img" src="album_cover.webp" alt="" class="visible">
     <div id="disc-hole"></div>
   </div>
   <div id="disc-info">
@@ -619,7 +615,7 @@
 <script>
 
 // ① Name shown on final slide
-const PERSON_NAME = "Momina Jan";
+const PERSON_NAME = "Momina";
 
 // ② The italic quote on slide 3
 const MAIN_MESSAGE = `Write your heartfelt message here. Tell them how much they mean to you, how proud you are, or share your favourite memory together.`;
@@ -630,7 +626,7 @@ const SONG_ARTIST = "Sabrina Carpenter";
 
 // ④ Superpowers
 const TRAITS = [
-  "Contagious Joy", "Duniya ki sab se elite yapping", "Nurturing Soul",
+  "Contagious Joy", "Fierce Loyalty", "Nurturing Soul",
   "Morning Sunshine", "Best Tea Spills", "Sab theek karne wali vibes",
   "Tufff Energy", "Kindest Heart"
 ];
@@ -638,14 +634,14 @@ const TRAITS = [
 // ⑤ Music — one file per slide (put mp3s in the same folder)
 //    Leave src:"" for silence on that slide
 const SONGS = [
-  { title:"Something About You",  artist:"Eyedress",            src:"Something_About_You_-_Eyedress.mp3"    },
-  { title:"Ecoute Chérie",        artist:"Vendredi Sur Mer",    src:"Ecoute_Cherie_-_Vendredi_Sur_Mer.wav"  },
-  { title:"Fukashigi No Karte",   artist:"Mai Sakurajima",      src:"Fukashgi_no_karte_-_Mai_Sakurajima.mp3" },
-  { title:"Qarar",                artist:"Ismail Khan",         src:"Qarar_-_Ismail_Khan.mp3"               },
-  { title:"I thought i saw your face today",           artist:"She And Him",src:"Apocalypse_-_Cigarettes.mp3"           },
-  { title:"Espresso",             artist:"Sabrina Carpenter",   src:""  }, // ← add filename when ready
-  { title:"West Coast",           artist:"Lana Del Rey",        src:""  }, // ← add filename when ready
-  { title:"Golden Brown",         artist:"The Stranglers",      src:""  }, // ← add filename when ready
+  { title:"Something About You",  artist:"Eyedress",            src:"Something_About_You_-_Eyedress.mp3"    }, // slide 1 — password
+  { title:"Dan Dan Kokoro",        artist:"Field of View",       src:"Dan-dan-kokoro_website_.mp3"           }, // slide 2 — elapsed time
+  { title:"Fukashigi No Karte",   artist:"Mai Sakurajima",      src:"Fukashi_No_Karte_For_website_.mp3"     }, // slide 3 — message
+  { title:"Qarar",                artist:"Ismail Khan",         src:"Qarar_-_Ismail_Khan.mp3"               }, // slide 4 — superpowers
+  { title:"Apocalypse",           artist:"Cigarettes After Sex",src:"Apocalypse_-_Cigarettes.mp3"           }, // slide 5 — memories
+  { title:"Espresso",             artist:"Sabrina Carpenter",   src:"Espresso_For_Website_.mp3"             }, // slide 6 — song of the year
+  { title:"West Coast",           artist:"Lana Del Rey",        src:"West_Coast_-_Lana_Del_Rey.mp3"         }, // slide 7 — wishes
+  { title:"Golden Brown",         artist:"The Stranglers",      src:"Golden_Brown_website_.mp3"             }, // slide 8 — final
 ];
 
 // ⑥ Wishes
@@ -730,8 +726,8 @@ function goTo(idx){
     slides[current].querySelectorAll('.anim-child').forEach(el=>{el.style.animation='none';void el.offsetWidth;el.style.animation='';});
     busy = false;
   }, 30);
-  if(current===total-1){ setTimeout(launchConfetti,700); renderPngs(); }
-  updateAudio(current);
+  if(current===total-1){ setTimeout(launchConfetti,700); renderPngs(); setTimeout(stopAudio, 100); }
+  if(autoplayStarted) updateAudio(current);
   updateUI();
 }
 function changeSlide(dir){ if(!busy) goTo(current+dir); }
@@ -790,6 +786,8 @@ function checkAnswer(){
     document.getElementById('gate-form').style.display='none';
     document.getElementById('gate-success').style.display='flex';
     gateUnlocked=true;
+    // unlock per-slide autoplay for all subsequent slides
+    autoplayStarted=true;
   } else {
     inp.classList.remove('wrong');
     void inp.offsetWidth;
@@ -800,20 +798,29 @@ function checkAnswer(){
 }
 
 // ── ELAPSED TIME since 12:00 AM July 17 2026 ─────────────────
-const BIRTHDAY_START = new Date('2026-07-17T00:00:00');
+// ── ELAPSED TIME — counts UP from midnight July 17 2026 ───────
+// new Date(year, monthIndex, day, h, m, s) — month is 0-indexed so 6 = July
+const BIRTHDAY_START = new Date(2026, 6, 17, 0, 0, 0);
+
 (function tick(){
-  const diff = new Date() - BIRTHDAY_START;
-  const abs  = Math.abs(diff);
-  const days  = Math.floor(abs/864e5);
-  const hours = Math.floor((abs%864e5)/36e5);
-  const mins  = Math.floor((abs%36e5)/6e4);
-  const secs  = Math.floor((abs%6e4)/1e3);
-  const pad   = n => String(n).padStart(2,'0');
-  document.getElementById('cd-days').textContent  = pad(days);
-  document.getElementById('cd-hours').textContent = pad(hours);
-  document.getElementById('cd-mins').textContent  = pad(mins);
-  document.getElementById('cd-secs').textContent  = pad(secs);
-  setTimeout(tick,1000);
+  const now     = new Date();
+  const elapsed = now - BIRTHDAY_START; // positive AFTER birthday, negative BEFORE
+  const pad     = n => String(Math.floor(n)).padStart(2, '0');
+
+  if(elapsed <= 0){
+    // Before midnight July 17 — hold at zero
+    ['cd-days','cd-hours','cd-mins','cd-secs'].forEach(id => {
+      document.getElementById(id).textContent = '00';
+    });
+  } else {
+    // After midnight July 17 — count up
+    document.getElementById('cd-days').textContent  = pad(elapsed / 864e5);
+    document.getElementById('cd-hours').textContent = pad((elapsed % 864e5) / 36e5);
+    document.getElementById('cd-mins').textContent  = pad((elapsed % 36e5)  / 6e4);
+    document.getElementById('cd-secs').textContent  = pad((elapsed % 6e4)   / 1e3);
+  }
+
+  setTimeout(tick, 1000);
 })();
 
 // ── AUDIO ─────────────────────────────────────────────────────
@@ -849,6 +856,9 @@ function updateAudio(idx){
   };
   if(old&&!old.paused) fadeOutAndStop(old,300,startNew);
   else { if(old)old.pause(); startNew(); }
+}
+function stopAudio(){
+  if(audio){ fadeOutAndStop(audio, 800, ()=>{ audio=null; audioPlaying=false; currentSrc=''; updateDiscUI(null,false); }); }
 }
 function toggleAudio(){
   if(!audio)return;
@@ -950,14 +960,22 @@ function drawConfetti(){
   if(pieces.length>0) requestAnimationFrame(drawConfetti);
 }
 
-// ── AUTOPLAY on first interaction ─────────────────────────────
-let autoplayStarted=false;
-function tryAutoplay(){
-  if(autoplayStarted)return; autoplayStarted=true; updateAudio(0);
+// ── AUTOPLAY ──────────────────────────────────────────────────
+// Phase 1: very first touch/click/keypress on the password slide
+//          → start Something About You immediately
+// Phase 2: user presses confirm (correct password)
+//          → every slide change autoplays its own track
+let slide1AudioStarted = false;
+let autoplayStarted    = false;
+
+function startSlide1Audio(){
+  if(slide1AudioStarted) return;
+  slide1AudioStarted = true;
+  updateAudio(0); // index 0 = Something About You
 }
-document.addEventListener('click',    tryAutoplay, {once:true});
-document.addEventListener('touchstart',tryAutoplay, {once:true,passive:true});
-document.addEventListener('keydown',   tryAutoplay, {once:true});
+document.addEventListener('click',     startSlide1Audio, {once:true});
+document.addEventListener('touchstart',startSlide1Audio, {once:true, passive:true});
+document.addEventListener('keydown',   startSlide1Audio, {once:true});
 </script>
 </body>
 </html>
