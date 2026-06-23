@@ -591,7 +591,7 @@
 <div id="disc-player">
   <div id="disc-wrap" onclick="toggleAudio()">
     <div id="disc"></div>
-    <img id="disc-img" src="album_cover.webp" alt="" class="visible">
+    <img id="disc-img" src="album_cover.webp" alt="">
     <div id="disc-hole"></div>
   </div>
   <div id="disc-info">
@@ -740,8 +740,15 @@ function updateUI(){
   document.getElementById('btn-prev').style.opacity = current===0 ? '0.2' : '1';
   document.getElementById('btn-next').style.opacity = current===total-1 ? '0.2' : '1';
   document.getElementById('swipe-hint').style.opacity = current===total-1 ? '0' : '0.32';
+
+  const discImg = document.getElementById('disc-img');
+
+  if(current === 5){
+    discImg.classList.add('visible');
+  } else {
+    discImg.classList.remove('visible');
+  }
 }
-updateUI();
 
 // keyboard
 document.addEventListener('keydown',e=>{
